@@ -5,6 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "AIzaSyCR6ok-
 export interface ParsedTask {
   name: string;
   assignee: string;
+
   dueDate: string;
   priority: "P1" | "P2" | "P3" | "P4";
   description?: string;
@@ -35,6 +36,7 @@ Return only a valid JSON object, no other text or explanation.`;
     const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
     
     const parsedResult = JSON.parse(cleanedText);
+    console.log('parsedResult:', parsedResult)
     
     // Validate and set defaults
     return {
