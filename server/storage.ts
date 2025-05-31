@@ -34,6 +34,7 @@ export class MemStorage implements IStorage {
       ...insertTask,
       id,
       dueDate: new Date(insertTask.dueDate),
+      description: insertTask.description || null,
       createdAt: now,
       completed: null,
     };

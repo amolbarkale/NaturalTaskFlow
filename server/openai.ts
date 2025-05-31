@@ -1,9 +1,6 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY_ENV_VAR || "default_key"
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "AIzaSyCR6ok-fZPWwslM63Xs0Y58kngmBO20jTQ");
 
 export interface ParsedTask {
   name: string;
@@ -15,7 +12,9 @@ export interface ParsedTask {
 
 export async function parseNaturalLanguageTask(input: string): Promise<ParsedTask> {
   try {
-    const prompt = `Parse the following natural language task input and extract structured information. Return a JSON object with the following fields:
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const prompt = `Parse the following natural language task input and extract structured information. Return ONLY a valid JSON object with the following fields:
 - name: The main task description/action
 - assignee: The person assigned to the task (if not specified, use "Unassigned")
 - dueDate: The due date and time in ISO 8601 format (if relative like "tomorrow" or "next week", calculate the actual date)
@@ -26,36 +25,27 @@ Current date and time: ${new Date().toISOString()}
 
 Task input: "${input}"
 
-Return only a valid JSON object.`;
+Return only a valid JSON object, no other text or explanation.`;
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are a task parsing expert. Extract structured task information from natural language input and respond with valid JSON only."
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      response_format: { type: "json_object" },
-      temperature: 0.1,
-    });
-
-    const result = JSON.parse(response.choices[0].message.content || "{}");
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text().trim();
+    
+    // Remove any markdown code blocks if present
+    const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
+    
+    const parsedResult = JSON.parse(cleanedText);
     
     // Validate and set defaults
     return {
-      name: result.name || "Unnamed task",
-      assignee: result.assignee || "Unassigned",
-      dueDate: result.dueDate || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-      priority: ["P1", "P2", "P3", "P4"].includes(result.priority) ? result.priority : "P3",
-      description: result.description || "",
+      name: parsedResult.name || "Unnamed task",
+      assignee: parsedResult.assignee || "Unassigned",
+      dueDate: parsedResult.dueDate || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      priority: ["P1", "P2", "P3", "P4"].includes(parsedResult.priority) ? parsedResult.priority : "P3",
+      description: parsedResult.description || "",
     };
   } catch (error) {
-    console.error("Error parsing task with OpenAI:", error);
+    console.error("Error parsing task with Gemini:", error);
     throw new Error("Failed to parse natural language task. Please try rephrasing your input.");
   }
 }
