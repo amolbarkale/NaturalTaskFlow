@@ -15,13 +15,10 @@ router.use((req, res, next) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log('POST /api/tasks/parse-transcript - Start');
   try {
     const { transcript } = req.body;
-    console.log('Received transcript:', transcript);
     
     if (!transcript) {
-      console.log('Error: No transcript provided');
       return res.status(400).json({ error: 'Transcript is required' });
     }
 
@@ -49,7 +46,6 @@ router.post('/', async (req, res) => {
     let text;
     try {
       text = result.response.text();
-      console.log('Parsed text from Gemini:', text);
     } catch (error: any) {
       console.error('Error reading Gemini response:', error);
       return res.status(500).json({ 
@@ -60,13 +56,10 @@ router.post('/', async (req, res) => {
 
     // Clean and parse the response
     try {
-      console.log('Cleaning and parsing response...');
       // Remove any potential markdown code block markers and trim whitespace
       const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
-      console.log('Cleaned text:', cleanedText);
       
       const tasks = JSON.parse(cleanedText);
-      console.log('Parsed JSON:', tasks);
       
       if (!Array.isArray(tasks)) {
         throw new Error('Response is not an array');
@@ -86,7 +79,6 @@ router.post('/', async (req, res) => {
         };
       });
 
-      console.log('Validated tasks:', validatedTasks);
       return res.json(validatedTasks);
     } catch (parseError: any) {
       console.error('Parse error:', parseError);

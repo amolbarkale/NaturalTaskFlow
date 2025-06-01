@@ -15,8 +15,6 @@ router.use((req, res, next) => {
   next();
 });
 
-console.log('Setting up routes...');
-
 // Mount routes without /api prefix since it's already handled in index.ts
 router.use('/tasks', tasksRouter);
 

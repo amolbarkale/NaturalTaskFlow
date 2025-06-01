@@ -29,7 +29,6 @@ export default function MeetingTranscriptParser() {
 
   const parseTranscriptMutation = useMutation({
     mutationFn: async (transcript: string) => {
-      console.log('Processing transcript with Gemini...');
       try {
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
         
@@ -50,10 +49,8 @@ export default function MeetingTranscriptParser() {
         Now parse this transcript (remember, respond with ONLY the JSON array):
         ${transcript}`;
 
-        console.log('Calling Gemini API...');
         const result = await model.generateContent(prompt);
         const text = result.response.text();
-        console.log('Gemini response:', text);
 
         // Clean and parse the response
         const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
@@ -78,7 +75,6 @@ export default function MeetingTranscriptParser() {
           };
         });
 
-        console.log('Validated tasks:', validatedTasks);
         return validatedTasks;
       } catch (error) {
         console.error('Error processing transcript:', error);
@@ -86,7 +82,6 @@ export default function MeetingTranscriptParser() {
       }
     },
     onSuccess: (data: ParsedTask[]) => {
-      console.log('Successfully parsed tasks:', data);
       setParsedTasks(data);
       toast({
         title: "Transcript Parsed",

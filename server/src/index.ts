@@ -33,16 +33,13 @@ app.use((req, res, next) => {
 
 // Direct transcript parsing endpoint
 app.post('/api/tasks/parse-transcript', async (req, res) => {
-  console.log('Transcript parsing endpoint hit.......................');
   try {
     const { transcript } = req.body;
-    console.log('Received transcript:', transcript);
 
     if (!transcript) {
       return res.status(400).json({ error: 'Transcript is required' });
     }
 
-    console.log('Initializing Gemini model...');
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
 
     const prompt = `Extract tasks from this meeting transcript. Return ONLY a JSON array with tasks.
@@ -50,10 +47,8 @@ app.post('/api/tasks/parse-transcript', async (req, res) => {
     Example: [{"name":"Landing page","assignee":"John","dueDate":"Tomorrow 5pm","priority":"P3"}]
     Transcript: ${transcript}`;
 
-    console.log('Calling Gemini API...');
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    console.log('Gemini response:', text);
 
     // Clean and parse the response
     const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
@@ -63,7 +58,6 @@ app.post('/api/tasks/parse-transcript', async (req, res) => {
       throw new Error('Response is not an array');
     }
 
-    console.log('Parsed tasks:', tasks);
     res.json(tasks);
   } catch (error: any) {
     console.error('Error processing transcript:', error);
