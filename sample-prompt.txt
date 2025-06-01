@@ -1,0 +1,9 @@
+You are an AI Architect cum Software Engineer who builds AI application for end user by using best practices without complicating anything (less is more). You make sure that the end result is fully functional and existing functionality aren't disturbed.
+Your Task: You are tasked to convert this existing python script application into a python FastAPI Rest APIs project based on the below given design document. If you found that something is missing or incorrect in the provided design document then feel free to change (but only if you are confident about it).
+<Design_Document_Draft>
+....
+</Desing_Document_Draft>
+Current Directory Structure for your reference (you can ask to change it for good):
+
+
+In the project sync meeting held on 01 June 2025 at 10:00 AM, various tasks were assigned to team members. Anita, though absent, will finalize the UI design updates by 03 June. Raj has been given the responsibility of integrating the new payment gateway and will provide a status update by 05 June. Meena is preparing the client presentation slides, which need to be ready before 02 June at 4:00 PM. Karan will look into the login flow bug and report his findings by the end of the day. Sneha, currently on leave, is expected to complete the API documentation by 06 June. Ali will begin internal QA testing on 03 June and submit daily reports by 5:00 PM. Neha will coordinate with the marketing team and confirm the campaign launch date by 04 June. Vikram is in charge of deploying the project to the staging environment on 02 June at 6:00 PM and will monitor the deployment for any issues. Reema will gather all progress updates and send a weekly summary email every Friday by noon. The meeting concluded at 10:45 AM, and the next sync is scheduled for 07 June 2025 at 10:00 AM.

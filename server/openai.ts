@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "AIzaSyCR6ok-fZPWwslM63Xs0Y58kngmBO20jTQ");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export interface ParsedTask {
   name: string;
@@ -13,7 +13,7 @@ export interface ParsedTask {
 
 export async function parseNaturalLanguageTask(input: string): Promise<ParsedTask> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-001" });
     
     const prompt = `Parse the following natural language task input and extract structured information. Return ONLY a valid JSON object with the following fields:
 - name: The main task description/action

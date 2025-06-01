@@ -19,6 +19,7 @@ export async function apiRequest(
     credentials: "include",
   });
 
+  console.log('res:', res)
   await throwIfResNotOk(res);
   return res;
 }

@@ -4,6 +4,7 @@ import { Task } from "@shared/schema";
 import TaskInput from "@/components/task-input";
 import TaskBoard from "@/components/task-board";
 import TaskFilters from "@/components/task-filters";
+import MeetingTranscriptParser from "@/components/MeetingTranscriptParser";
 import { Bell, Briefcase } from "lucide-react";
 
 export default function TaskManager() {
@@ -53,8 +54,13 @@ export default function TaskManager() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Task Input */}
         <TaskInput />
         
+        {/* Meeting Transcript Parser */}
+        <MeetingTranscriptParser />
+        
+        {/* Task Filters */}
         <TaskFilters
           priorityFilter={priorityFilter}
           setPriorityFilter={setPriorityFilter}
@@ -64,6 +70,7 @@ export default function TaskManager() {
           taskStats={taskStats}
         />
 
+        {/* Task Board */}
         <TaskBoard tasks={filteredTasks} isLoading={isLoading} />
       </div>
     </div>
