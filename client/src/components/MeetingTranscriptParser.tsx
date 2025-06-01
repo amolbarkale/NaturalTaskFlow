@@ -10,8 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Sparkles, Plus } from "lucide-react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Initialize Gemini
-const genAI = new GoogleGenerativeAI('AIzaSyCR6ok-fZPWwslM63Xs0Y58kngmBO20jTQ');
+// Initialize Gemini with Vite environment variable
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '');
 
 interface ParsedTask {
   name: string;
