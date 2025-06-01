@@ -25,9 +25,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Transcript is required' });
     }
 
-    console.log('Initializing Gemini model...');
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
-    console.log('Gemini model initialized');
 
     const prompt = `You are a task extraction system. Extract tasks from the following meeting transcript.
     
@@ -46,9 +44,7 @@ router.post('/', async (req, res) => {
     Now parse this transcript (remember, respond with ONLY the JSON array):
     ${transcript}`;
 
-    console.log('Calling Gemini API...');
     const result = await model.generateContent(prompt);
-    console.log('Gemini API response received:', result);
 
     let text;
     try {

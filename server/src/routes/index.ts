@@ -19,9 +19,7 @@ console.log('Setting up routes...');
 
 // Mount routes without /api prefix since it's already handled in index.ts
 router.use('/tasks', tasksRouter);
-console.log('Mounted tasks router at /tasks');
 
 router.use('/tasks/parse-transcript', transcriptParserRouter);
-console.log('Mounted transcript parser at /tasks/parse-transcript');
 
 export default router; 
