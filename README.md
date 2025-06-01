@@ -2,6 +2,20 @@
 
 A modern task management application that allows users to create and manage tasks using natural language processing. The application provides an intuitive interface for task management with features like priority setting, due dates, and assignee management.
 
+## Screenshots
+
+### Main Task Board
+![Task Board View](screenshots/task-board.jpg)
+*The main task board showing tasks with priorities, assignees, and due dates*
+
+### Meeting Transcript Parser
+![Transcript Parser](screenshots/transcript-parser.jpg)
+*AI-powered meeting transcript parser automatically extracting tasks*
+
+### Task Management
+![Task Editing](screenshots/task-editing.jpg)
+*Intuitive interface for creating and editing tasks*
+
 ## Features
 
 - 🤖 Natural Language Task Creation
